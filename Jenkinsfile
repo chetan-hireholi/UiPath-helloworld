@@ -38,7 +38,7 @@ pipeline {
 	                      projectJsonPath: "project.json",
 	                      version: [$class: 'ManualVersionEntry', version: "${MAJOR}.${MINOR}.${env.BUILD_NUMBER}"],
 	                      useOrchestrator: false
-	        )
+                    )
 	            }
 	        }
 
@@ -54,24 +54,19 @@ pipeline {
 	        stage('Deploy to UAT') {
 	            steps {
 	                echo "Deploying ${BRANCH_NAME} to UAT "
-	                UiPathDeploy (
-	                packagePath: "Output\\${env.BUILD_NUMBER}",
-	                orchestratorAddress: "${UIPATH_ORCH_URL}",
-	                orchestratorTenant: "${UIPATH_ORCH_TENANT_NAME}",
-	                folderName: "${UIPATH_ORCH_FOLDER_NAME}",
-	                // environments: 'DEV',
-	                //credentials: [$class: 'UserPassAuthenticationEntry', credentialsId: 'APIUserKey']
-	                credentials: Token(accountName: "${UIPATH_ORCH_LOGICAL_NAME}", credentialsId: 'APIUserKey'), 
-	
-
-	        )
+	                // UiPathDeploy (
+	                // packagePath: "Output\\${env.BUILD_NUMBER}",
+	                // orchestratorAddress: "${UIPATH_ORCH_URL}",
+	                // orchestratorTenant: "${UIPATH_ORCH_TENANT_NAME}",
+	                // folderName: "${UIPATH_ORCH_FOLDER_NAME}",
+	                // // environments: 'DEV',
+	                // // credentials: [$class: 'UserPassAuthenticationEntry', credentialsId: 'APIUserKey']
+	                // credentials: Token(accountName: "${UIPATH_ORCH_LOGICAL_NAME}", credentialsId: 'APIUserKey'), 
+	                )
 	            }
 	        }
 	
-
-	
-
-	         // Deploy to Production Step
+            // Deploy to Production Step
 	        stage('Deploy to Production') {
 	            steps {
 	                echo 'Deploy to Production'
@@ -86,11 +81,7 @@ pipeline {
 	        timeout(time:80, unit:'MINUTES')
 	        skipDefaultCheckout()
 	    }
-	
 
-	
-
-	    // 
 	    post {
 	        success {
 	            echo 'Deployment has been completed!'
@@ -103,6 +94,4 @@ pipeline {
 	            cleanWs()
 	        }
 	    }
-	
-
-	}
+}
