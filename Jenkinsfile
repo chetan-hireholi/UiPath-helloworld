@@ -23,8 +23,6 @@ pipeline {
 	                echo "Jenkins JOB Name ${env.JOB_NAME}"
 	                echo "GitHub BranhName ${env.BRANCH_NAME}"
 	                checkout scm
-	
-
 	            }
 	        }
 	
@@ -33,12 +31,16 @@ pipeline {
 	        stage('Build') {
 	            steps {
 	                echo "Building..with ${WORKSPACE}"
-	                // UiPathPack (
-	                //       outputPath: "Output\\${env.BUILD_NUMBER}",
-	                //       projectJsonPath: "project.json",
-	                //       version: [$class: 'ManualVersionEntry', version: "${MAJOR}.${MINOR}.${env.BUILD_NUMBER}"],
-	                //       useOrchestrator: false
-                    // )
+	                UiPathPack (
+	                    outputPath: "Output\\${env.BUILD_NUMBER}",
+	                    projectJsonPath: "project.json",
+	                    version: [$class: 'ManualVersionEntry', version: "${MAJOR}.${MINOR}.${env.BUILD_NUMBER}"],
+	                    useOrchestrator: true
+                        traceLoggingLevel: "None",
+                        orchestratorAddress: "https://cloud.uipath.com/",
+                        orchestratorTenant: "Chetan_Tenant",
+                        credentials: Token(accountName: "${UIPATH_ORCH_LOGICAL_NAME}", credentialsId: 'APIUserKey')
+                    )
 	            }
 	        }
 
